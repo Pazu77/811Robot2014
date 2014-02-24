@@ -4,6 +4,7 @@
  */
 package edu.wpi.first.team811.vars;
 
+import edu.wpi.first.team811.devices.EncoderTalon;
 import edu.wpi.first.team811.devices.UltrasonicRunner;
 import edu.wpi.first.team811.devices.ReverseTalon;
 import edu.wpi.first.wpilibj.Compressor;
@@ -23,6 +24,10 @@ public class Devices implements Config {
     public final Joystick joy1;
     public final Joystick joy2;
     public final RobotDrive drive;    
+    //public final EncoderTalon frontleft;
+    //public final EncoderTalon rearleft;
+    //public final EncoderTalon frontright;
+    //public final EncoderTalon rearright;
     public final Talon frontleft;
     public final Talon rearleft;
     public final Talon frontright;
@@ -44,10 +49,14 @@ public class Devices implements Config {
     private Devices(){
         joy1 = new Joystick(JOY_PORT_1);
         joy2 = new Joystick(JOY_PORT_2);
-        frontleft = new  ReverseTalon(FRONT_LEFT_PORT);
-        rearleft = new ReverseTalon(REAR_LEFT_PORT);
-        frontright = new ReverseTalon(FRONT_RIGHT_PORT);
-        rearright = new ReverseTalon(REAR_RIGHT_PORT);
+        frontleft = new EncoderTalon(FRONT_LEFT_PORT, FRONTLEFT_ENCODER_PORT_1, FRONTLEFT_ENCODER_PORT_2, true);
+        rearleft = new EncoderTalon(REAR_LEFT_PORT, REARLEFT_ENCODER_PORT_1, REARLEFT_ENCODER_PORT_2, true);
+        frontright = new EncoderTalon(FRONT_RIGHT_PORT, FRONTRIGHT_ENCODER_PORT_1, FRONTRIGHT_ENCODER_PORT_2, false);
+        rearright = new EncoderTalon(REAR_RIGHT_PORT, REARRIGHT_ENCODER_PORT_1, REARRIGHT_ENCODER_PORT_2, false);
+        //frontleft = new ReverseTalon(FRONT_LEFT_PORT);
+        //rearleft = new ReverseTalon(REAR_LEFT_PORT);
+        //frontright = new ReverseTalon(FRONT_RIGHT_PORT);
+        //rearright = new ReverseTalon(REAR_RIGHT_PORT);
         drive = new RobotDrive(frontleft, rearleft, frontright, rearright);
         compressor = new Compressor(COMPRESSOR_PRESSURE_INPUT, COMPRESSOR_RELAY);
         arms_piston = new DoubleSolenoid(ARMS_CLOSE_CHANNEL, ARMS_OPEN_CHANNEL);
@@ -63,6 +72,18 @@ public class Devices implements Config {
         compressor.start();
         ultra.start();
         drive.setSafetyEnabled(false);
+        
+        if(frontleft instanceof EncoderTalon) {
+            ((EncoderTalon)frontleft).setDistancePerPulse(.001);
+            ((EncoderTalon)frontleft).setMaxSpeed(50);
+            ((EncoderTalon)rearleft).setDistancePerPulse(.001);
+            ((EncoderTalon)rearleft).setMaxSpeed(50);
+            ((EncoderTalon)frontright).setDistancePerPulse(.001);
+            ((EncoderTalon)frontright).setMaxSpeed(50);
+            ((EncoderTalon)rearright).setDistancePerPulse(.001);
+            ((EncoderTalon)rearright).setMaxSpeed(50);
+            
+        }
     }
 
     public static Devices getDefaultInstance() {

@@ -24,18 +24,20 @@ public class Catapult extends SubSystem {
     public void run() {
         //Catapult shoot and lock
         if (d.joy2.getRawButton(CATAPULT_RELEASE_BUTTON)) { //shoot
-            long StartTime = System.currentTimeMillis();
-            d.catapult_piston.set(DoubleSolenoid.Value.kForward);
+            StartTime = System.currentTimeMillis();
+            d.catapult_piston.set(DoubleSolenoid.Value.kReverse);
             shot = true;
         } else if (d.joy2.getRawButton(CATAPULT_LOCK_BUTTON)) { //lock
-            d.catapult_piston.set(DoubleSolenoid.Value.kReverse);
+            d.catapult_piston.set(DoubleSolenoid.Value.kForward);
         } else { //turn off
             d.catapult_piston.set(DoubleSolenoid.Value.kOff);
         }
         
+        //auto reload after shoot
         if ((System.currentTimeMillis() > StartTime + 1000) && (shot)) {
-                d.catapult_piston.set(DoubleSolenoid.Value.kReverse);
+                d.catapult_piston.set(DoubleSolenoid.Value.kForward);
                 reloading = true;
+                shot = false;
         }
         
         //auto reloading

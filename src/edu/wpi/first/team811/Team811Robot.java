@@ -51,9 +51,7 @@ public class Team811Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         //waitForData();
-        System.out.println("auto periodic 1");
         auto.periodic();
-        System.out.println("auto periodic 2");
     }
 
     /**
@@ -69,9 +67,7 @@ public class Team811Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         //waitForData();
-        System.out.println("tele periodic 1");
         tele.periodic();
-        System.out.println("tele periodic 2");
     }
 
     /**

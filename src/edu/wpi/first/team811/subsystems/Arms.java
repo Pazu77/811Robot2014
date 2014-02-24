@@ -29,7 +29,7 @@ public class Arms extends SubSystem {
             if (d.joy2.getRawButton(AUTO_CATCH_BUTTON)) {
                 SmartDashboard.putBoolean("auto catch on", true);
                 if (d.ultra.getAverageReading() < SmartDashboard.getNumber("autocatch", 150)) {
-                    d.arms_piston.set(DoubleSolenoid.Value.kReverse);
+                    d.arms_piston.set(DoubleSolenoid.Value.kForward);
                     SmartDashboard.putBoolean("auto catch on", false);
                 }
             } else {

@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -33,6 +33,15 @@ public interface Config {
     int FRONT_RIGHT_PORT = 2;
     int REAR_RIGHT_PORT = 1;
     int GYRO_CHANNEL = 1;
+    int FRONTLEFT_ENCODER_PORT_1 = 9;
+    int FRONTLEFT_ENCODER_PORT_2 = 10;
+    int REARLEFT_ENCODER_PORT_1 = 11;
+    int REARLEFT_ENCODER_PORT_2 = 12;
+    int FRONTRIGHT_ENCODER_PORT_1 = 7;
+    int FRONTRIGHT_ENCODER_PORT_2 = 8;
+    int REARRIGHT_ENCODER_PORT_1 = 5;
+    int REARRIGHT_ENCODER_PORT_2 = 6;
+    
     
     //Limit Switch Ports
     int RELOADING_LIMITSWITCH_CHANNEL = 1;
@@ -53,6 +62,7 @@ public interface Config {
     int FIELD_CENTRIC_BUTTON = 1;
     int ROBOT_CENTIC_BUTTON = 2;
     int SLOW_BUTTON = 6;
+    int GYRO_RESET_BUTTON = 7;
     
     //Arms Controls
     int ARMS_CLOSE_BUTTON = 1;

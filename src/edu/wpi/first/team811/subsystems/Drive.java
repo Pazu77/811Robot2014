@@ -20,9 +20,9 @@ public class Drive extends SubSystem {
 
     public void run() {
         //Inputs
-        double input1x = -d.joy1.getRawAxis(DRIVE_X_JOYSTICK_AXIS);//left and right
-        double input1y = d.joy1.getRawAxis(DRIVE_Y_JOYSTICK_AXIS);//forward and backwards
-        double input2x = d.joy1.getRawAxis(DRIVE_TURNING_JOYSTICK_AXIS);//turning
+        double input1x = d.joy1.getRawAxis(DRIVE_X_JOYSTICK_AXIS);//left and right
+        double input1y = -1*d.joy1.getRawAxis(DRIVE_Y_JOYSTICK_AXIS);//forward and backwards
+        double input2x = -1*d.joy1.getRawAxis(DRIVE_TURNING_JOYSTICK_AXIS);//turning
 
         //Joystick Tolerance
         if (Math.abs(input1x) < JOYSTICK_DRIVE_TOLERANCE) {
@@ -47,6 +47,10 @@ public class Drive extends SubSystem {
         double speedScale = DEFAULT_SPEED_SCALE;
         if(slow) {
             speedScale = SLOW_SPEED_SCALE;
+        }
+        
+        if (d.joy1.getRawButton(GYRO_RESET_BUTTON)) {
+            d.gyro.reset();
         }
         
         //Smartdashboard print outs

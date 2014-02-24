@@ -21,9 +21,9 @@ public class EncoderTalon extends Talon {
     
     private double MAX_SPEED = 2000;
     
-    private static final double PID_P = .01;
-    private static final double PID_I = .01;
-    private static final double PID_D = .01;
+    private static final double PID_P = .000001;
+    private static final double PID_I = .000001;
+    private static final double PID_D = .000001;
     
     /**
      * Creates a new encoder talon
@@ -60,6 +60,7 @@ public class EncoderTalon extends Talon {
         
         setMaxSpeed(MAX_SPEED);
         
+        pid.setAbsoluteTolerance(.5);
         pid.setSetpoint(0);
         
         encoder.start();
@@ -139,6 +140,13 @@ public class EncoderTalon extends Talon {
      * @param speed The percent speed the motor should reach with the defined maximum speed = 100% (enter a value from -1 to 1)
      */
     public void set(double speed) {
-        pid.setSetpoint(speed*MAX_SPEED);
+        if(Math.abs(speed) < .1) {
+            pid.setSetpoint(0);
+            pid.disable();
+            super.set(0);
+        } else {
+            pid.setSetpoint(speed*MAX_SPEED);
+            pid.enable();
+        }
     }
 }
