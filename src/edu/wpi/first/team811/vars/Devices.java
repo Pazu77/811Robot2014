@@ -53,10 +53,10 @@ public class Devices implements Config {
         rearleft = new EncoderTalon(REAR_LEFT_PORT, REARLEFT_ENCODER_PORT_1, REARLEFT_ENCODER_PORT_2, true);
         frontright = new EncoderTalon(FRONT_RIGHT_PORT, FRONTRIGHT_ENCODER_PORT_1, FRONTRIGHT_ENCODER_PORT_2, false);
         rearright = new EncoderTalon(REAR_RIGHT_PORT, REARRIGHT_ENCODER_PORT_1, REARRIGHT_ENCODER_PORT_2, false);
-        //frontleft = new ReverseTalon(FRONT_LEFT_PORT);
-        //rearleft = new ReverseTalon(REAR_LEFT_PORT);
-        //frontright = new ReverseTalon(FRONT_RIGHT_PORT);
-        //rearright = new ReverseTalon(REAR_RIGHT_PORT);
+        //frontleft = new Talon(FRONT_LEFT_PORT);
+        //rearleft = new Talon(REAR_LEFT_PORT);
+        //frontright = new Talon(FRONT_RIGHT_PORT);
+        //rearright = new Talon(REAR_RIGHT_PORT);
         drive = new RobotDrive(frontleft, rearleft, frontright, rearright);
         compressor = new Compressor(COMPRESSOR_PRESSURE_INPUT, COMPRESSOR_RELAY);
         arms_piston = new DoubleSolenoid(ARMS_CLOSE_CHANNEL, ARMS_OPEN_CHANNEL);

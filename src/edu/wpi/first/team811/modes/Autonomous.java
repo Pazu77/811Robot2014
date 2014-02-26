@@ -4,6 +4,7 @@
  */
 package edu.wpi.first.team811.modes;
 
+import edu.wpi.first.team811.devices.EncoderTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -13,6 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Autonomous extends Mode {
 
+    private static final double move_speed = 1;
+    
     long StartTime;
     boolean goal_is_lit_at_start = true;
     
@@ -57,7 +60,11 @@ public class Autonomous extends Mode {
         part7 = false;
         part8 = false;
         part9 = false;
-
+        
+        
+        if(d.frontleft instanceof EncoderTalon) {
+            
+        }
     }
 
     public void periodic() {
@@ -99,7 +106,7 @@ public class Autonomous extends Mode {
         if (EndTime <= System.currentTimeMillis()) {
             d.drive.mecanumDrive_Cartesian(0, 0, 0, 0);
         } else {
-            d.drive.mecanumDrive_Cartesian(0, .5, 0, 0);
+            d.drive.mecanumDrive_Cartesian(0, move_speed, 0, 0);
         }
 
         if (thrown) {
@@ -155,7 +162,7 @@ public class Autonomous extends Mode {
         if (EndTime <= System.currentTimeMillis()) {
             d.drive.mecanumDrive_Cartesian(0, 0, 0, 0);
         } else {
-            d.drive.mecanumDrive_Cartesian(0, .5, 0, 0);
+            d.drive.mecanumDrive_Cartesian(0, move_speed, 0, 0);
         }
     }
 
@@ -171,7 +178,7 @@ public class Autonomous extends Mode {
             if (EndTime <= System.currentTimeMillis()) {
                 d.drive.mecanumDrive_Cartesian(0, 0, 0, 0);
             } else {
-                d.drive.mecanumDrive_Cartesian(0, .5, 0, 0);
+                d.drive.mecanumDrive_Cartesian(0, move_speed, 0, 0);
             }
 
             boolean goal_is_lit = SmartDashboard.getBoolean("Goal On", true);
@@ -221,8 +228,10 @@ public class Autonomous extends Mode {
     private void auto5() {
         if (part1) { // Open arms
             d.arms_piston.set(DoubleSolenoid.Value.kReverse);
-            part1 = false;
-            part2 = true;
+            if(StartTime + 250 < System.currentTimeMillis()) {
+                part1 = false;
+                part2 = true;
+            }
         } else if (part2) { // Put arms all the way down until limitswitch
             if ((d.limitarmtop.get())) {//limitswitch is inversed
                 d.arm.set(1);
@@ -236,16 +245,16 @@ public class Autonomous extends Mode {
             part3 = false;
             part3_5 = true;
             StartTime = System.currentTimeMillis();
-        } else if(part3_5) {
+        } else if(part3_5) {//tap arm up
             d.arm.set(-1);
-            if(StartTime + 500 < System.currentTimeMillis()) {
+            if(StartTime + 250 < System.currentTimeMillis()) {
                 d.arm.set(0);
                 part3_5 = false;
                 part4 = true;
             }
         } else if (part4) { // Move forward for 2 seconds / encoder time
-            d.drive.mecanumDrive_Cartesian(0, .5, 0, 0);
-            if(StartTime + 3000 < System.currentTimeMillis()) {
+            d.drive.mecanumDrive_Cartesian(0, move_speed, 0, 0);
+            if(StartTime + 1700 < System.currentTimeMillis()) {
                 d.drive.mecanumDrive_Cartesian(0, 0, 0, 0);
                 part4 = false;
                 part5 = true;
@@ -253,20 +262,15 @@ public class Autonomous extends Mode {
         } else if (part5) { // Shoot pre-loaded ball
             d.catapult_piston.set(DoubleSolenoid.Value.kReverse);
             d.winch.set(-1);
-            if(StartTime + 3250 < System.currentTimeMillis()) {
+            if(StartTime + 2050 < System.currentTimeMillis()) {
                 d.winch.set(0);
                 part5 = false;
                 part6 = true;
             }
-        } else if (part6) { // Reload winch
-            d.catapult_piston.set(DoubleSolenoid.Value.kForward);
-            if (!d.limitreloading.get()) {
-                d.winch.set(0);
-                part6 = false;
-                part7 = true;
-            } else {
-                d.winch.set(1);
-            }
+        } else if (part6) { //Open arms
+            d.arms_piston.set(DoubleSolenoid.Value.kReverse);
+            part6 = false;
+            part7 = true;
         } else if (part7) { // Move arm up until limitswitch
              if ((d.limitarmbottom.get())) {//limitswitch is inversed
                 d.arm.set(-1);
@@ -275,12 +279,15 @@ public class Autonomous extends Mode {
                 part7 = false;
                 part8 = true;
             }
-        } else if (part8) { // Open arms
-            d.arms_piston.set(DoubleSolenoid.Value.kReverse);
-            part8 = false;
-            part9 = true;
+        } else if (part8) { // Slam forward
+            d.drive.mecanumDrive_Cartesian(0, move_speed, 0, 0);
+            if(StartTime + 4000 < System.currentTimeMillis()) {
+                d.drive.mecanumDrive_Cartesian(0, 0, 0, 0);
+                part8 = false;
+                part9 = true;
+            }
         } else if (part9) { // Shoot ball
-            d.catapult_piston.set(DoubleSolenoid.Value.kReverse);
+            //d.catapult_piston.set(DoubleSolenoid.Value.kReverse);
             part9 = false;
         }
     }
