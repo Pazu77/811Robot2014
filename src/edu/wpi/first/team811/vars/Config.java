@@ -62,7 +62,8 @@ public interface Config {
     int FIELD_CENTRIC_BUTTON = 1;
     int ROBOT_CENTIC_BUTTON = 2;
     int SLOW_BUTTON = 6;
-    int GYRO_RESET_BUTTON = 7;
+    int ENCODER_RESET_BUTTON = 9;
+    int GYRO_RESET_BUTTON = 10;
     
     //Arms Controls
     int ARMS_CLOSE_BUTTON = 1;

@@ -71,6 +71,7 @@ public class Devices implements Config {
         
         compressor.start();
         ultra.start();
+        
         drive.setSafetyEnabled(false);
         
         if(frontleft instanceof EncoderTalon) {

@@ -5,6 +5,7 @@
  */
 package edu.wpi.first.team811.subsystems;
 
+import edu.wpi.first.team811.devices.EncoderTalon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -40,6 +41,15 @@ public class Drive extends SubSystem {
             isFieldCentric = true;
         } else if (d.joy1.getRawButton(ROBOT_CENTIC_BUTTON)) {//Toggle to robot centric
             isFieldCentric = false;
+        }
+        
+        if(d.joy1.getRawButton(ENCODER_RESET_BUTTON)) {
+            if(d.rearleft instanceof EncoderTalon) {
+                ((EncoderTalon)d.rearleft).reset();
+                ((EncoderTalon)d.rearright).reset();
+                ((EncoderTalon)d.frontleft).reset();
+                ((EncoderTalon)d.frontright).reset();
+            }
         }
         
         //Speed Scale

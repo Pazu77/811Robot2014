@@ -84,6 +84,7 @@ public class Autonomous extends Mode {
             auto5();
         } else if (autoMode == 6) {//turn toward hot
             auto2();
+        } else if (autoMode == 99) {//nothing
         } else {//shoot immediately
             auto1(false);
         }
@@ -99,18 +100,17 @@ public class Autonomous extends Mode {
             goal_is_lit_at_start = true;
         }
 
-        long EndTime = StartTime + 1500;
-
-        d.arms_piston.set(DoubleSolenoid.Value.kReverse);
-
+        long EndTime = StartTime + 1250;
+        
         if (EndTime <= System.currentTimeMillis()) {
             d.drive.mecanumDrive_Cartesian(0, 0, 0, 0);
+            d.arms_piston.set(DoubleSolenoid.Value.kReverse);
         } else {
-            d.drive.mecanumDrive_Cartesian(0, move_speed, 0, 0);
+            d.drive.mecanumDrive_Cartesian(0, move_speed, .004, 0);
         }
 
         if (thrown) {
-        } else if ((EndTime <= System.currentTimeMillis() && goal_is_lit_at_start) || EndTime + 4500 <= System.currentTimeMillis()) {
+        } else if ((EndTime + 300 <= System.currentTimeMillis() && goal_is_lit_at_start) || EndTime + 4500 <= System.currentTimeMillis()) {
             d.catapult_piston.set(DoubleSolenoid.Value.kReverse);
             d.winch.set(-1);
             thrown = true;
@@ -166,7 +166,7 @@ public class Autonomous extends Mode {
         }
     }
 
-    //Multiple ball autonomous(untested)
+    //Multiple ball autonomous(untested - don't use)
     private void auto4() {
         long EndTime = StartTime + 2000;
         double angle = d.gyro.getAngle();
