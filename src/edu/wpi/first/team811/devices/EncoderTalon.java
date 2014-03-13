@@ -56,7 +56,11 @@ public class EncoderTalon extends Talon {
         pid = new PIDController(PID_P, PID_I, PID_D, encoder, new PIDOutput() {
 
             public void pidWrite(double output) {
-                EncoderTalon.super.set(output);
+                if(Double.isInfinite(output) || Double.isNaN(output)) {
+                    EncoderTalon.super.set(0);
+                } else {
+                    EncoderTalon.super.set(output);
+                }
             }
         });
 

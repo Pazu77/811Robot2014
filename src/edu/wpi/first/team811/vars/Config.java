@@ -53,6 +53,7 @@ public interface Config {
     double JOYSTICK_DRIVE_TOLERANCE = .3;
     double DEFAULT_SPEED_SCALE = 1;
     double SLOW_SPEED_SCALE = .75;
+    double Kp = 0.03;
     
     
     //Drive Controls
@@ -81,6 +82,8 @@ public interface Config {
     //Smartdashboard variables
     String strRobotOrientation = "Robot Orientation";
     String dblRobotSpeedScale = "Robot Speed Scale";
-    
-    
+    String dblRobotAutoDriveTime = "Auto Drive Time";
+    String dblRobotAutoMode = "autonomous";
+    String blnHotZone = "hotZone";
+    String dblGyro = "gyro";
 }

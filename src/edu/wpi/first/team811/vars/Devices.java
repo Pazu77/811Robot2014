@@ -23,11 +23,7 @@ public class Devices implements Config {
    //Device declaration
     public final Joystick joy1;
     public final Joystick joy2;
-    public final RobotDrive drive;    
-    //public final EncoderTalon frontleft;
-    //public final EncoderTalon rearleft;
-    //public final EncoderTalon frontright;
-    //public final EncoderTalon rearright;
+    public final RobotDrive drive;
     public final Talon frontleft;
     public final Talon rearleft;
     public final Talon frontright;
@@ -49,14 +45,14 @@ public class Devices implements Config {
     private Devices(){
         joy1 = new Joystick(JOY_PORT_1);
         joy2 = new Joystick(JOY_PORT_2);
-        frontleft = new EncoderTalon(FRONT_LEFT_PORT, FRONTLEFT_ENCODER_PORT_1, FRONTLEFT_ENCODER_PORT_2, true);
-        rearleft = new EncoderTalon(REAR_LEFT_PORT, REARLEFT_ENCODER_PORT_1, REARLEFT_ENCODER_PORT_2, true);
-        frontright = new EncoderTalon(FRONT_RIGHT_PORT, FRONTRIGHT_ENCODER_PORT_1, FRONTRIGHT_ENCODER_PORT_2, false);
-        rearright = new EncoderTalon(REAR_RIGHT_PORT, REARRIGHT_ENCODER_PORT_1, REARRIGHT_ENCODER_PORT_2, false);
-        //frontleft = new Talon(FRONT_LEFT_PORT);
-        //rearleft = new Talon(REAR_LEFT_PORT);
-        //frontright = new Talon(FRONT_RIGHT_PORT);
-        //rearright = new Talon(REAR_RIGHT_PORT);
+        //frontleft = new EncoderTalon(FRONT_LEFT_PORT, FRONTLEFT_ENCODER_PORT_1, FRONTLEFT_ENCODER_PORT_2, true);
+        //rearleft = new EncoderTalon(REAR_LEFT_PORT, REARLEFT_ENCODER_PORT_1, REARLEFT_ENCODER_PORT_2, true);
+        //frontright = new EncoderTalon(FRONT_RIGHT_PORT, FRONTRIGHT_ENCODER_PORT_1, FRONTRIGHT_ENCODER_PORT_2, false);
+        //rearright = new EncoderTalon(REAR_RIGHT_PORT, REARRIGHT_ENCODER_PORT_1, REARRIGHT_ENCODER_PORT_2, false);
+        frontleft = new Talon(FRONT_LEFT_PORT);
+        rearleft = new Talon(REAR_LEFT_PORT);
+        frontright = new Talon(FRONT_RIGHT_PORT);
+        rearright = new Talon(REAR_RIGHT_PORT);
         drive = new RobotDrive(frontleft, rearleft, frontright, rearright);
         compressor = new Compressor(COMPRESSOR_PRESSURE_INPUT, COMPRESSOR_RELAY);
         arms_piston = new DoubleSolenoid(ARMS_CLOSE_CHANNEL, ARMS_OPEN_CHANNEL);

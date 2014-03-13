@@ -55,7 +55,7 @@ public class Drive extends SubSystem {
         //Speed Scale
         boolean slow = d.joy1.getRawButton(SLOW_BUTTON);//Slow! only while holding the button
         double speedScale = DEFAULT_SPEED_SCALE;
-        if(slow) {
+        if(slow) { 
             speedScale = SLOW_SPEED_SCALE;
         }
         
@@ -64,9 +64,11 @@ public class Drive extends SubSystem {
         }
         
         //Smartdashboard print outs
-        SmartDashboard.putNumber("gyro", d.gyro.getAngle());
+        SmartDashboard.putNumber(dblGyro, d.gyro.getAngle());
         SmartDashboard.putString(strRobotOrientation, isFieldCentric ? "Field Centric" : "Robot Centric");
         SmartDashboard.putNumber(dblRobotSpeedScale, speedScale);
+        
+        
         
         //Drive!
         d.drive.mecanumDrive_Cartesian(input1x * speedScale, input1y * speedScale, input2x * speedScale, isFieldCentric ? d.gyro.getAngle() : 0);

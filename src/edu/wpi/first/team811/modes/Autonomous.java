@@ -16,6 +16,8 @@ public class Autonomous extends Mode {
 
     private static final double move_speed = 1;
     
+    
+    
     long StartTime;
     boolean goal_is_lit_at_start = true;
     
@@ -37,10 +39,11 @@ public class Autonomous extends Mode {
     boolean part7;
     boolean part8;
     boolean part9;
-
+    
     public void robotStart() {
         super.robotStart();
-        SmartDashboard.putNumber("autonomous", SmartDashboard.getNumber("autonomous", 1));
+        SmartDashboard.putNumber(dblRobotAutoMode, SmartDashboard.getNumber(dblRobotAutoMode, 1));
+        SmartDashboard.putNumber(dblRobotAutoDriveTime, SmartDashboard.getNumber(dblRobotAutoDriveTime, 1950));
     }
 
     public void init() {
@@ -48,6 +51,8 @@ public class Autonomous extends Mode {
         done_turning = false;
         goal_is_lit_at_start = false;
         thrown = false;
+        d.gyro.reset();
+
 
         // For two ball auto
         part1 = true;
@@ -68,10 +73,10 @@ public class Autonomous extends Mode {
     }
 
     public void periodic() {
-        int autoMode = (int) SmartDashboard.getNumber("autonomous", 1);
+        int autoMode = (int) SmartDashboard.getNumber(dblRobotAutoMode, 1);
         if (autoMode == 1) {//shoot hot
             if (System.currentTimeMillis() > (StartTime + 1500)) {
-                if (SmartDashboard.getBoolean("hotZone", true)) {
+                if (SmartDashboard.getBoolean(blnHotZone, true)) {
                     goal_is_lit_at_start = true;
                 }
             }
@@ -88,6 +93,8 @@ public class Autonomous extends Mode {
         } else {//shoot immediately
             auto1(false);
         }
+        
+        SmartDashboard.putNumber(dblGyro, d.gyro.getAngle());
     }
 
     public void disabled() {
@@ -100,17 +107,20 @@ public class Autonomous extends Mode {
             goal_is_lit_at_start = true;
         }
 
-        long EndTime = StartTime + 1250;
+        long EndTime = StartTime + (long)SmartDashboard.getNumber(dblRobotAutoDriveTime, 0);
         
         if (EndTime <= System.currentTimeMillis()) {
             d.drive.mecanumDrive_Cartesian(0, 0, 0, 0);
-            d.arms_piston.set(DoubleSolenoid.Value.kReverse);
         } else {
-            d.drive.mecanumDrive_Cartesian(0, move_speed, .004, 0);
+            d.drive.mecanumDrive_Cartesian(0, move_speed, d.gyro.getAngle() * Kp, 0);
         }
 
+        if(EndTime + 400 < System.currentTimeMillis()) {
+            d.arms_piston.set(DoubleSolenoid.Value.kReverse);
+        }
+        
         if (thrown) {
-        } else if ((EndTime + 300 <= System.currentTimeMillis() && goal_is_lit_at_start) || EndTime + 4500 <= System.currentTimeMillis()) {
+        } else if ((EndTime + 700 <= System.currentTimeMillis() && goal_is_lit_at_start) || EndTime + 4500 <= System.currentTimeMillis()) {
             d.catapult_piston.set(DoubleSolenoid.Value.kReverse);
             d.winch.set(-1);
             thrown = true;
@@ -151,7 +161,7 @@ public class Autonomous extends Mode {
                 d.drive.mecanumDrive_Cartesian(0, 0, 0, 0);
                 d.catapult_piston.set(DoubleSolenoid.Value.kForward);
             } else {
-                d.drive.mecanumDrive_Cartesian(0, .5, 0, 0);
+                d.drive.mecanumDrive_Cartesian(0, .5, -angle * Kp, 0);
             }
         }
     }
@@ -162,7 +172,7 @@ public class Autonomous extends Mode {
         if (EndTime <= System.currentTimeMillis()) {
             d.drive.mecanumDrive_Cartesian(0, 0, 0, 0);
         } else {
-            d.drive.mecanumDrive_Cartesian(0, move_speed, 0, 0);
+            d.drive.mecanumDrive_Cartesian(0, move_speed, d.gyro.getAngle() * Kp, 0);
         }
     }
 
@@ -178,7 +188,7 @@ public class Autonomous extends Mode {
             if (EndTime <= System.currentTimeMillis()) {
                 d.drive.mecanumDrive_Cartesian(0, 0, 0, 0);
             } else {
-                d.drive.mecanumDrive_Cartesian(0, move_speed, 0, 0);
+                d.drive.mecanumDrive_Cartesian(0, move_speed, angle * Kp, 0);
             }
 
             boolean goal_is_lit = SmartDashboard.getBoolean("Goal On", true);
@@ -224,7 +234,7 @@ public class Autonomous extends Mode {
             }
         }
     }
-
+    //2 ball autonomous- REAL ONE
     private void auto5() {
         if (part1) { // Open arms
             d.arms_piston.set(DoubleSolenoid.Value.kReverse);
@@ -253,7 +263,7 @@ public class Autonomous extends Mode {
                 part4 = true;
             }
         } else if (part4) { // Move forward for 2 seconds / encoder time
-            d.drive.mecanumDrive_Cartesian(0, move_speed, 0, 0);
+            d.drive.mecanumDrive_Cartesian(0, move_speed, d.gyro.getAngle() * Kp, 0);
             if(StartTime + 1700 < System.currentTimeMillis()) {
                 d.drive.mecanumDrive_Cartesian(0, 0, 0, 0);
                 part4 = false;
@@ -280,7 +290,7 @@ public class Autonomous extends Mode {
                 part8 = true;
             }
         } else if (part8) { // Slam forward
-            d.drive.mecanumDrive_Cartesian(0, move_speed, 0, 0);
+            d.drive.mecanumDrive_Cartesian(0, move_speed, d.gyro.getAngle() * Kp, 0);
             if(StartTime + 4000 < System.currentTimeMillis()) {
                 d.drive.mecanumDrive_Cartesian(0, 0, 0, 0);
                 part8 = false;
