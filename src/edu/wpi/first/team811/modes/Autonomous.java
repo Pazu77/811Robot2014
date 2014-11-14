@@ -43,7 +43,7 @@ public class Autonomous extends Mode {
     public void robotStart() {
         super.robotStart();
         SmartDashboard.putNumber(dblRobotAutoMode, SmartDashboard.getNumber(dblRobotAutoMode, 1));
-        SmartDashboard.putNumber(dblRobotAutoDriveTime, SmartDashboard.getNumber(dblRobotAutoDriveTime, 1500));
+        SmartDashboard.putNumber(dblRobotAutoDriveTime, SmartDashboard.getNumber(dblRobotAutoDriveTime, 1950));
     }
 
     public void init() {
@@ -114,15 +114,13 @@ public class Autonomous extends Mode {
         } else {
             d.drive.mecanumDrive_Cartesian(0, move_speed, d.gyro.getAngle() * Kp, 0);
         }
-        
-        if(EndTime + 300 < System.currentTimeMillis()) {
-            //wait for drivetrain to stop
-        } else if(EndTime + 700 < System.currentTimeMillis()) {
+
+        if(EndTime + 400 < System.currentTimeMillis()) {
             d.arms_piston.set(DoubleSolenoid.Value.kReverse);
         }
         
         if (thrown) {
-        } else if ((EndTime + 1000 <= System.currentTimeMillis() && goal_is_lit_at_start) || EndTime + 4500 <= System.currentTimeMillis()) {
+        } else if ((EndTime + 700 <= System.currentTimeMillis() && goal_is_lit_at_start) || EndTime + 4500 <= System.currentTimeMillis()) {
             d.catapult_piston.set(DoubleSolenoid.Value.kReverse);
             d.winch.set(-1);
             thrown = true;
