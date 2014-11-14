@@ -65,6 +65,8 @@ public interface Config {
     int SLOW_BUTTON = 6;
     int ENCODER_RESET_BUTTON = 9;
     int GYRO_RESET_BUTTON = 10;
+    int GYRO_STABLE_ON_BUTTON = 3;
+    int GYRO_STABLE_OFF_BUTTON = 4;
     
     //Arms Controls
     int ARMS_CLOSE_BUTTON = 1;
@@ -86,4 +88,5 @@ public interface Config {
     String dblRobotAutoMode = "autonomous";
     String blnHotZone = "hotZone";
     String dblGyro = "gyro";
+    String blnGyroStable = "Gyro Stablization On";
 }
